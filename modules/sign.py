@@ -1,5 +1,28 @@
 #!/usr/bin/python
 
+# This is a module to control a Alpha Big Dot led sign
+# http://www.alpha-american.com/p-alpha-big-dot.html
+#
+# See http://www.alpha-american.com/alpha-manuals/M-Protocol.pdf
+# for more information on the protocol used to speak to
+# sign
+#
+# This module was originally written by Bryan Andregg and the
+# original RHN crew. 
+#
+# The sign can do a lot of things this module doesn't support
+# but it works pretty well for displaying basic text. Some things
+# that could be added:
+#       - pixmap support see (DOTS PICTURE in the docs above)
+#       - custom char support (you could theorectially sort of
+#         support the non default glyphs this way, though it
+#         only understands ASCII)
+#       - some sort of markup language to define what the text
+#         looks like
+#
+#  Consider this code GPL v2 or newer.
+#
+
 import sys
 class Sign:
 	message = ""
@@ -84,7 +107,11 @@ class Sign:
 		self.connect(p)
 
 	def write(self,m):
-		self.port.write(m)
+		try:
+			self.port.write(m)
+		except:
+			# yeah, bad... shrug
+			pass
 
 	def reset(self):
 		self.write(self.header + "E" + "," + self.eot)
